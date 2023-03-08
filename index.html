@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CH">
+    <head>
+        <meta charset="utf-8">
+        <title>Rui's website</title>
+        // 在这里对marked框架进行引用
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        // 在这里编写AJAX代码
+        <script>
+            function showMarkdown()
+            {
+                // 获取表单变量
+                var file=form;
+                // 创建XMLHttpRequest对象
+                var xmlhttp;
+                if (window.XMLHttpRequest)
+                {
+                    // IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+                    xmlhttp=new XMLHttpRequest();
+                }
+                else
+                {
+                    // IE6, IE5 浏览器执行代码
+                    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+                }
+
+                // 得到服务器响应后，对得到的Markdown文档进行解析
+                xmlhttp.onreadystatechange=function()
+                {
+                    if (xmlhttp.readyState===4 && xmlhttp.status===200)
+                    {
+                        // 这里调用了marked框架中的marked函数实现Markdown2HTML的解析
+                        document.getElementById("content").innerHTML=marked(xmlhttp.responseText);
+                    }
+                }
+
+
+                // 向服务器发送请求，获取你需要的Markdown文档
+                xmlhttp.open("GET",file.q.value,true);
+                xmlhttp.send();
+            }
+        </script>
+        </head>
+
+    <body>
+<!--    <form method="post" action="hello.php">-->
+<!--        Name:-->
+<!--        <input type="text" name="fname">-->
+<!--        Age:-->
+<!--        <input type="text" name="age">-->
+<!--        <input type="submit">-->
+<!--    </form>-->
+
+    <h1>
+        欢迎来到rui的主页
+    </h1>
+    <p>
+        这里是一些文ss
+    </p>
+
+    please enter the id you want to search:
+    <form method="get" action="sql1.php">
+        <label>
+            <input type="text" name="id">
+        </label>
+        <input type="submit">
+    </form>
+
+    <p>Please enter your score: </p>
+    <form method="post" action="score.php">
+        Subject:
+        <label>
+            <input type="text" name="subject">
+        </label>
+        Score:
+        <label>
+            <input type="number" name="score" min="0.0" max="5.0" step="0.1">
+        </label>
+        Credit:
+        <label>
+            <input type="number" name="credit">
+        </label>
+        Aux(0 represent for major, 1 represent for aux):
+        <label>
+            <input type="number" name="aux" min="0" max="1">
+        </label>
+        <input type="submit" value="Send data">
+    </form>
+
+    <br>
+    <br>
+    <!-- 查看linux.md文件
+     在这里编辑表单代码-->
+    <div class="container" style="margin-top:3">
+        <form name="form" action="" method="post">
+            <label>
+                <select name="q">
+                    <option class="active" value="">选择一个笔记:</option>
+                    <option value="./linuxcmd.md">Linuxcmd</option>
+                    <option value="B.md">第二个Markdown文档</option>
+                    <option value="C.md">第三个Markdown文档</option>
+                    <option value="Evalue-TranscriptomeData.md">第四个Markdown文档</option>
+                </select>
+            </label>
+            <input type="button" value="显示" onclick="showMarkdown()">
+        </form>
+
+        <!--用于展示解析后的内容-->
+        <div id="content"></div>
+    </div>
+
+    </body>
+</html>
